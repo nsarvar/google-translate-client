@@ -11,17 +11,23 @@ import (
 
 type Content []interface{}
 
+var filename = flag.String("file", "", "filename")
+var text = flag.String("text", "", "text")
+var tl = flag.String("tl", "", "Target language")
+var sl = flag.String("sl", "", "Source language")
+
 func main() {
+	flag.Parse()
 	content := *new(Content)
 
-	filename := flag.String("file", "data.txt", "filename")
-	tl := flag.String("tl", "uz", "Target language")
-	sl := flag.String("sl", "en", "Source language")
+	if *text == "" {
+		data, err := ioutil.ReadFile(*filename)
+		check(err)
+		*text = string(data)
+	}
 
-	data, err := ioutil.ReadFile(*filename)
-	check(err)
 	baseUrl := "https://translate.googleapis.com/translate_a/single?client=gtx"
-	query := url.QueryEscape(string(data))
+	query := url.QueryEscape(*text)
 	translateUrl := fmt.Sprintf("%s&sl=%s&tl=%s&dt=t&q=%s", baseUrl, *sl, *tl, query)
 	resp, err := http.Get(translateUrl)
 	check(err)
@@ -36,8 +42,10 @@ func main() {
 		targetText += i[0].(string)
 		sourceText += i[1].(string)
 	}
-	fmt.Printf("Original text: %s \n\n", sourceText)
-	fmt.Printf("Translated text: %s \n", targetText)
+	fmt.Println("################### Original text #########################")
+	fmt.Println(sourceText)
+	fmt.Println("################### Target text #########################")
+	fmt.Println(targetText)
 }
 
 func check(e error) {

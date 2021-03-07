@@ -1,0 +1,3 @@
+The official Google Translate API is available for businesses only but you can use Google Apps Script to create your own Google Language Translation API without having to pay the enterprise license fee.
+The text can be translated from one language to another using the LanguageApp service or, if you run out of quota, you can make a call to the secret translate.googleapis.com API that is internally used by the Google Translate extension for Chrome and requires no authentication.
+

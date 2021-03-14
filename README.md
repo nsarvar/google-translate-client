@@ -3,6 +3,8 @@
 ### Using
 
 ```
+${PWD}
+
 go build
 ./translate -text="Hello World" -sl=en -tl=uz
 ./translate -file=data.txt -sl=en -tl=uz
